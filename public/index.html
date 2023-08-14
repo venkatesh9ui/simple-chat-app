@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat App</title>
+  </head>
+  <body>
+    <h1>Chat App</h1>
+
+    <div id="users"></div>
+    <div id="chat">
+      <div id="messages"></div>
+      <input type="text" id="messageInput" placeholder="Type your message" />
+      <button id="sendButton">Send</button>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io();
+
+      const usersContainer = document.getElementById("users");
+      const messagesContainer = document.getElementById("messages");
+      const messageInput = document.getElementById("messageInput");
+      const sendButton = document.getElementById("sendButton");
+
+      // Prompt user for username
+      const username = prompt("Enter your username:");
+      socket.emit("join", username);
+
+      // Update user list
+      socket.on("updateUsers", users => {
+        usersContainer.innerHTML = "";
+        users.forEach(user => {
+          const userElement = document.createElement("div");
+          userElement.textContent = user;
+          usersContainer.appendChild(userElement);
+        });
+      });
+
+      // Display new user joined message
+      socket.on("userJoined", message => {
+        const messageElement = document.createElement("div");
+        messageElement.textContent = message;
+        messagesContainer.appendChild(messageElement);
+      });
+
+      // Display user left message
+      socket.on("userLeft", message => {
+        const messageElement = document.createElement("div");
+        messageElement.textContent = message;
+        messagesContainer.appendChild(messageElement);
+      });
+
+      // Display incoming messages
+      socket.on("message", message => {
+        const messageElement = document.createElement("div");
+        messageElement.textContent = message;
+        messagesContainer.appendChild(messageElement);
+      });
+
+      // Send message
+      sendButton.addEventListener("click", () => {
+        const message = messageInput.value.trim();
+        if (message) {
+          socket.emit("message", message);
+          messageInput.value = "";
+        }
+      });
+
+      // Handle Enter key
+      messageInput.addEventListener("keydown", event => {
+        if (event.key === "Enter") {
+          sendButton.click();
+        }
+      });
+    </script>
+  </body>
+</html>
