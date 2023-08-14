@@ -4,15 +4,113 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chat App</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background-color: #f3f2f8;
+      }
+
+      #container {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        justify-content: center;
+        align-items: center;
+      }
+
+      #chat-container {
+        display: flex;
+        flex-direction: column;
+        max-width: 400px;
+        width: 100%;
+        margin: 0 auto;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+        background-color: #ffffff;
+        overflow: hidden;
+      }
+
+      #header {
+        background-color: #075e54;
+        color: #ffffff;
+        padding: 10px;
+        text-align: center;
+        font-size: 20px;
+      }
+
+      #users {
+        background-color: #128c7e;
+        color: #ffffff;
+        padding: 10px;
+        text-align: center;
+        font-size: 18px;
+      }
+
+      #messages {
+        flex: 1;
+        padding: 10px;
+        overflow-y: auto;
+      }
+
+      .message {
+        margin-bottom: 10px;
+        padding: 5px 10px;
+        border-radius: 10px;
+      }
+
+      .user-message {
+        background-color: #dcf8c6;
+        align-self: flex-start;
+      }
+
+      .other-message {
+        background-color: #ffffff;
+        align-self: flex-end;
+      }
+
+      #input-container {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        background-color: #ffffff;
+      }
+
+      #messageInput {
+        flex: 1;
+        padding: 8px;
+        border: none;
+        border-radius: 20px;
+        outline: none;
+      }
+
+      #sendButton {
+        margin-left: 10px;
+        padding: 8px 15px;
+        background-color: #128c7e;
+        color: #ffffff;
+        border: none;
+        border-radius: 20px;
+        cursor: pointer;
+      }
+    </style>
   </head>
   <body>
-    <h1>Chat App</h1>
-
-    <div id="users"></div>
-    <div id="chat">
-      <div id="messages"></div>
-      <input type="text" id="messageInput" placeholder="Type your message" />
-      <button id="sendButton">Send</button>
+    <div id="container">
+      <div id="chat-container">
+        <div id="header">Chat App</div>
+        <div id="users"></div>
+        <div id="messages"></div>
+        <div id="input-container">
+          <input
+            type="text"
+            id="messageInput"
+            placeholder="Type your message"
+          />
+          <button id="sendButton">Send</button>
+        </div>
+      </div>
     </div>
 
     <script src="/socket.io/socket.io.js"></script>
