@@ -173,6 +173,23 @@
           sendButton.click();
         }
       });
+
+      // Handle clearChat event
+      socket.on("clearChat", () => {
+        messagesContainer.innerHTML = ""; // Clear all chat messages
+      });
+
+      // Handle slash commands
+      messageInput.addEventListener("keydown", event => {
+        if (event.key === "Enter") {
+          const message = messageInput.value.trim();
+          if (message.startsWith("/")) {
+            socket.emit("message", message); // Send the slash command as a regular message
+          } else {
+            sendButton.click();
+          }
+        }
+      });
     </script>
   </body>
 </html>

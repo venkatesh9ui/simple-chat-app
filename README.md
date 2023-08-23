@@ -10,6 +10,11 @@ This is a simple real-time chat application built using Node.js and Socket.io. I
 - See the list of currently online users
 - Send and receive messages in real-time
 - Replace keywords with emojis: "hey" ➡️ 👋, "woah" ➡️ 😲, "lol" ➡️ 😂, "like" ➡️ ❤️ (and more!)
+- Slash commands support:
+  - `/clear` to clear the chat
+  - `/help` to show all available commands
+  - `/message` to show your sent messages
+  - `/random` to show a random whole number
 
 ## Prerequisites
 
