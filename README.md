@@ -9,6 +9,7 @@ This is a simple real-time chat application built using Node.js and Socket.io. I
 - Join a chat room with a username
 - See the list of currently online users
 - Send and receive messages in real-time
+- Replace keywords with emojis: "hey" ➡️ 👋, "woah" ➡️ 😲, "lol" ➡️ 😂, "like" ➡️ ❤️ (and more!)
 
 ## Prerequisites
 
