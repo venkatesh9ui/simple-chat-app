@@ -151,9 +151,10 @@
       });
 
       // Display incoming messages
+      // Display incoming messages with emojis
       socket.on("message", message => {
         const messageElement = document.createElement("div");
-        messageElement.textContent = message;
+        messageElement.innerHTML = message;
         messagesContainer.appendChild(messageElement);
       });
 

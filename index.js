@@ -1,3 +1,40 @@
+const emojiMap = {
+  hey: "👋",
+  woah: "😲",
+  lol: "😂",
+  like: "❤️",
+  react: "⚛️",
+  javascript: "🔥",
+  css: "🎨",
+  scss: "🎨",
+  "node.js": "🌐",
+  html: "📄",
+  python: "🐍",
+  ruby: "💎",
+  java: "☕",
+  "c++": "🔍",
+  typescript: "🔷",
+  angular: "🅰️",
+  vue: "🖖",
+  php: "🐘",
+  swift: "🐦",
+  git: "🗄️",
+  github: "🐙",
+  docker: "🐳",
+  sql: "📊",
+  mongodb: "🍃",
+  firebase: "🔥",
+  aws: "☁️",
+  linux: "🐧",
+  windows: "🪟",
+  macOS: "🍏",
+  android: "🤖",
+  ios: "🍎",
+  api: "🔌",
+  json: "📝",
+  // Add more keywords and emojis as needed
+};
+
 const express = require("express");
 const http = require("http");
 const socketIo = require("socket.io");
@@ -26,8 +63,22 @@ io.on("connection", socket => {
   // Handle incoming messages
   socket.on("message", message => {
     const username = users[socket.id];
-    io.emit("message", `${username}: ${message}`);
+    const emojiMessage = replaceKeywordsWithEmojis(message);
+    io.emit("message", `${username}: ${emojiMessage}`);
   });
+
+  function replaceKeywordsWithEmojis(message) {
+    const words = message.split(" ");
+
+    for (let i = 0; i < words.length; i++) {
+      const word = words[i].toLowerCase();
+      if (emojiMap[word]) {
+        words[i] = emojiMap[word];
+      }
+    }
+
+    return words.join(" ");
+  }
 
   // Handle user disconnection
   socket.on("disconnect", () => {
