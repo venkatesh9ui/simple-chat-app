@@ -87,8 +87,9 @@ io.on("connection", socket => {
 
     switch (command) {
       case "clear":
-        io.emit("clearChat");
-        io.emit("message", `Chat cleared by ${username}`);
+        io.to(socket.id).emit("clearChat");
+        socketMessages[socket.id] = []; // Clear the messages for the user who issued the command
+        io.to(socket.id).emit("message", `Chat cleared by you`);
         break;
       case "help":
         const availableCommands = ["clear", "help", "message", "random"];
