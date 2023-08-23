@@ -16,6 +16,8 @@ This is a simple real-time chat application built using Node.js and Socket.io. I
   - `/message` to show your sent messages
   - `/random` to show a random whole number
 
+Enjoy chatting in real-time with emojis and slash commands using this Node.js and Socket.io chat app!
+
 ## Prerequisites
 
 Before you begin, ensure you have the following installed:

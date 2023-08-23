@@ -1,40 +1,3 @@
-const emojiMap = {
-  hey: "👋",
-  woah: "😲",
-  lol: "😂",
-  like: "❤️",
-  react: "⚛️",
-  javascript: "🔥",
-  css: "🎨",
-  scss: "🎨",
-  "node.js": "🌐",
-  html: "📄",
-  python: "🐍",
-  ruby: "💎",
-  java: "☕",
-  "c++": "🔍",
-  typescript: "🔷",
-  angular: "🅰️",
-  vue: "🖖",
-  php: "🐘",
-  swift: "🐦",
-  git: "🗄️",
-  github: "🐙",
-  docker: "🐳",
-  sql: "📊",
-  mongodb: "🍃",
-  firebase: "🔥",
-  aws: "☁️",
-  linux: "🐧",
-  windows: "🪟",
-  macOS: "🍏",
-  android: "🤖",
-  ios: "🍎",
-  api: "🔌",
-  json: "📝",
-  // Add more keywords and emojis as needed
-};
-
 const express = require("express");
 const http = require("http");
 const socketIo = require("socket.io");
@@ -92,10 +55,8 @@ io.on("connection", socket => {
         io.to(socket.id).emit("message", `Chat cleared by you`);
         break;
       case "help":
-        const availableCommands = ["clear", "help", "message", "random"];
-        const helpMessage = `Available commands: ${availableCommands.join(
-          ", "
-        )}`;
+        const helpMessage =
+          "Available commands: /clear, /help, /message, /random";
         io.to(socket.id).emit("message", helpMessage);
         break;
       case "message":
@@ -117,6 +78,43 @@ io.on("connection", socket => {
   }
 
   function replaceKeywordsWithEmojis(message) {
+    const emojiMap = {
+      hey: "👋",
+      woah: "😲",
+      lol: "😂",
+      like: "❤️",
+      react: "⚛️",
+      javascript: "🔥",
+      css: "🎨",
+      scss: "🎨",
+      "node.js": "🌐",
+      html: "📄",
+      python: "🐍",
+      ruby: "💎",
+      java: "☕",
+      "c++": "🔍",
+      typescript: "🔷",
+      angular: "🅰️",
+      vue: "🖖",
+      php: "🐘",
+      swift: "🐦",
+      git: "🗄️",
+      github: "🐙",
+      docker: "🐳",
+      sql: "📊",
+      mongodb: "🍃",
+      firebase: "🔥",
+      aws: "☁️",
+      linux: "🐧",
+      windows: "🪟",
+      macOS: "🍏",
+      android: "🤖",
+      ios: "🍎",
+      api: "🔌",
+      json: "📝",
+      // Add more keywords and emojis as needed
+    };
+
     const words = message.split(" ");
 
     for (let i = 0; i < words.length; i++) {
