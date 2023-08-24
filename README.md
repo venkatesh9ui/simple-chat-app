@@ -15,8 +15,8 @@ This is a simple real-time chat application built using Node.js and Socket.io. I
   - `/help` to show all available commands
   - `/message` to show your sent messages
   - `/random` to show a random whole number
-
-Enjoy chatting in real-time with emojis and slash commands using this Node.js and Socket.io chat app!
+  - `/rem <name> [<value>]` to set and retrieve user-defined values
+  - `/calc <expression>` to perform basic calculations
 
 ## Prerequisites
 
@@ -75,4 +75,4 @@ This project is licensed under the [MIT License](LICENSE).
 
 ---
 
-Enjoy chatting in real-time with your friends using this simple Node.js and Socket.io chat app!
+Enjoy chatting in real-time with emojis, slash commands, and even basic calculations using this Node.js and Socket.io chat app!
