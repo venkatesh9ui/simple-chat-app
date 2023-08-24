@@ -12,6 +12,9 @@ app.use(express.static("public"));
 // Keep track of connected users
 const users = {};
 
+// Keep track of user-defined values
+const userValues = {};
+
 // Handle socket connections
 io.on("connection", socket => {
   console.log("A user connected:", socket.id);
@@ -46,7 +49,8 @@ io.on("connection", socket => {
 
   function handleSlashCommand(socket, message) {
     const username = users[socket.id];
-    const command = message.substring(1).toLowerCase();
+    const commandParts = message.substring(1).split(" ");
+    const command = commandParts[0].toLowerCase();
 
     switch (command) {
       case "clear":
@@ -56,7 +60,7 @@ io.on("connection", socket => {
         break;
       case "help":
         const helpMessage =
-          "Available commands: /clear, /help, /message, /random";
+          "Available commands: /clear, /help, /message, /random, /rem <name> <value>";
         io.to(socket.id).emit("message", helpMessage);
         break;
       case "message":
@@ -71,9 +75,34 @@ io.on("connection", socket => {
         const randomNumber = Math.floor(Math.random() * 100) + 1;
         io.to(socket.id).emit("message", `Random number: ${randomNumber}`);
         break;
+      case "rem":
+        handleRemCommand(socket, username, commandParts);
+        break;
       default:
         io.to(socket.id).emit("message", `Unknown command: ${command}`);
         break;
+    }
+  }
+
+  function handleRemCommand(socket, username, commandParts) {
+    const subCommand = commandParts[1];
+    const name = commandParts[2];
+
+    if (subCommand === undefined || name === undefined) {
+      io.to(socket.id).emit("message", "Usage: /rem <name> <value>");
+    } else {
+      if (subCommand.toLowerCase() === "get") {
+        const value = userValues[name];
+        if (value !== undefined) {
+          io.to(socket.id).emit("message", `${name}: ${value}`);
+        } else {
+          io.to(socket.id).emit("message", `${name} not found`);
+        }
+      } else {
+        const value = commandParts.slice(2).join(" ");
+        // userValues[name] = value;
+        io.to(socket.id).emit("message", `${name} set to: ${value}`);
+      }
     }
   }
 
