@@ -78,9 +78,23 @@ io.on("connection", socket => {
       case "rem":
         handleRemCommand(socket, username, commandParts);
         break;
+      case "calc":
+        handleCalcCommand(socket, username, commandParts);
+        break;
       default:
         io.to(socket.id).emit("message", `Unknown command: ${command}`);
         break;
+    }
+  }
+
+  function handleCalcCommand(socket, username, commandParts) {
+    const expression = commandParts.slice(1).join(" ");
+
+    try {
+      const result = eval(expression);
+      io.to(socket.id).emit("message", `${expression} = ${result}`);
+    } catch (error) {
+      io.to(socket.id).emit("message", "Invalid expression");
     }
   }
 
