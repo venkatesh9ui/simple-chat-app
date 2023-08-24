@@ -46,6 +46,9 @@
         padding: 10px;
         text-align: center;
         font-size: 18px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
       }
 
       #messages {
@@ -94,6 +97,18 @@
         border-radius: 20px;
         cursor: pointer;
       }
+      #numericUserCountContainer {
+        background-color: #f0f0f0;
+        padding: 5px;
+        border-radius: 5px;
+        margin-top: 10px;
+        text-align: center;
+      }
+
+      #numericUserCount {
+        font-weight: bold;
+        color: #128c7e;
+      }
     </style>
   </head>
   <body>
@@ -101,6 +116,9 @@
       <div id="chat-container">
         <div id="header">Chat App</div>
         <div id="users"></div>
+        <div id="numericUserCountContainer">
+          Numeric User Count: <span id="numericUserCount">0</span>
+        </div>
         <div id="messages"></div>
         <div id="input-container">
           <input
@@ -189,6 +207,13 @@
             sendButton.click();
           }
         }
+      });
+
+      // Listen for userCount event and update the numeric user count
+      socket.on("userCount", count => {
+        const numericUserCountElement =
+          document.getElementById("numericUserCount");
+        numericUserCountElement.textContent = count;
       });
     </script>
   </body>

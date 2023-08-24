@@ -24,6 +24,8 @@ io.on("connection", socket => {
     users[socket.id] = username;
     io.emit("userJoined", `${username} has joined the chat`);
     io.emit("updateUsers", Object.values(users));
+    const userCount = Object.keys(users).length;
+    io.emit("userCount", userCount); // Emit user count
   });
 
   const socketMessages = {};
@@ -176,6 +178,8 @@ io.on("connection", socket => {
     delete users[socket.id];
     io.emit("userLeft", `${username} has left the chat`);
     io.emit("updateUsers", Object.values(users));
+    const userCount = Object.keys(users).length;
+    io.emit("userCount", userCount); // Emit user count
     console.log("A user disconnected:", socket.id);
   });
 });
