@@ -55,12 +55,12 @@ io.on("connection", socket => {
     switch (command) {
       case "clear":
         io.to(socket.id).emit("clearChat");
-        socketMessages[socket.id] = []; // Clear the messages for the user who issued the command
+        socketMessages[socket.id] = [];
         io.to(socket.id).emit("message", `Chat cleared by you`);
         break;
       case "help":
         const helpMessage =
-          "Available commands: /clear, /help, /message, /random, /rem <name> <value>";
+          "Available commands: /clear, /help, /message, /random, /rem <get|set> <name> [<value>]";
         io.to(socket.id).emit("message", helpMessage);
         break;
       case "message":
@@ -88,21 +88,36 @@ io.on("connection", socket => {
     const subCommand = commandParts[1];
     const name = commandParts[2];
 
-    if (subCommand === undefined || name === undefined) {
-      io.to(socket.id).emit("message", "Usage: /rem <name> <value>");
-    } else {
-      if (subCommand.toLowerCase() === "get") {
-        const value = userValues[name];
-        if (value !== undefined) {
-          io.to(socket.id).emit("message", `${name}: ${value}`);
-        } else {
-          io.to(socket.id).emit("message", `${name} not found`);
-        }
+    if (subCommand === undefined) {
+      io.to(socket.id).emit(
+        "message",
+        "Usage: /rem <get|set> <name> [<value>]"
+      );
+    } else if (subCommand.toLowerCase() === "get") {
+      const value = userValues[name];
+      if (value !== undefined) {
+        io.to(socket.id).emit("message", `${name}: ${value}`);
       } else {
-        const value = commandParts.slice(2).join(" ");
-        // userValues[name] = value;
-        io.to(socket.id).emit("message", `${name} set to: ${value}`);
+        io.to(socket.id).emit("message", `${name} not found`);
       }
+    } else if (subCommand.toLowerCase() === "set") {
+      const value = commandParts.slice(3).join(" ");
+      if (name === undefined) {
+        io.to(socket.id).emit("message", "Usage: /rem set <name> <value>");
+      } else if (value) {
+        userValues[name] = value;
+        io.to(socket.id).emit("message", `${name} set to: ${value}`);
+      } else {
+        io.to(socket.id).emit(
+          "message",
+          "Value cannot be empty. Usage: /rem set <name> <value>"
+        );
+      }
+    } else {
+      io.to(socket.id).emit(
+        "message",
+        "Unknown subcommand. Usage: /rem <get|set> <name> [<value>]"
+      );
     }
   }
 
