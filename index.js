@@ -85,39 +85,24 @@ io.on("connection", socket => {
   }
 
   function handleRemCommand(socket, username, commandParts) {
-    const subCommand = commandParts[1];
-    const name = commandParts[2];
+    const name = commandParts[1];
+    const value = commandParts.slice(2).join(" ");
 
-    if (subCommand === undefined) {
+    if (name === undefined) {
       io.to(socket.id).emit(
         "message",
-        "Usage: /rem <get|set> <name> [<value>]"
+        "Usage: /rem <name> [<value>] (to get, just use /rem <name>)"
       );
-    } else if (subCommand.toLowerCase() === "get") {
-      const value = userValues[name];
-      if (value !== undefined) {
-        io.to(socket.id).emit("message", `${name}: ${value}`);
+    } else if (value) {
+      userValues[name] = value;
+      io.to(socket.id).emit("message", `${name} set to: ${value}`);
+    } else {
+      const storedValue = userValues[name];
+      if (storedValue !== undefined) {
+        io.to(socket.id).emit("message", `${name}: ${storedValue}`);
       } else {
         io.to(socket.id).emit("message", `${name} not found`);
       }
-    } else if (subCommand.toLowerCase() === "set") {
-      const value = commandParts.slice(3).join(" ");
-      if (name === undefined) {
-        io.to(socket.id).emit("message", "Usage: /rem set <name> <value>");
-      } else if (value) {
-        userValues[name] = value;
-        io.to(socket.id).emit("message", `${name} set to: ${value}`);
-      } else {
-        io.to(socket.id).emit(
-          "message",
-          "Value cannot be empty. Usage: /rem set <name> <value>"
-        );
-      }
-    } else {
-      io.to(socket.id).emit(
-        "message",
-        "Unknown subcommand. Usage: /rem <get|set> <name> [<value>]"
-      );
     }
   }
 
