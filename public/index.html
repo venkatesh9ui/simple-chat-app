@@ -3,6 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <link rel="stylesheet" href="styles.css" />
     <title>Chat App</title>
     <style>
       body {
@@ -109,12 +114,33 @@
         font-weight: bold;
         color: #128c7e;
       }
+      /* Add styles for dark mode */
+      .dark-mode {
+        background-color: #333;
+        color: #fff;
+      }
+
+      .dark-mode #chat-container {
+        background-color: #444;
+      }
+
+      .dark-mode .message {
+        background-color: #555;
+      }
+
+      /* Add more styles for dark mode as needed */
     </style>
   </head>
   <body>
     <div id="container">
       <div id="chat-container">
-        <div id="header">Chat App</div>
+        <div id="header">
+          Chat App
+          <button id="toggleModeButton" title="Toggle Dark/Light Mode">
+            <i class="fas fa-moon"></i>
+            <i class="fas fa-sun"></i>
+          </button>
+        </div>
         <div id="users"></div>
         <div id="numericUserCountContainer">
           Numeric User Count: <span id="numericUserCount">0</span>
@@ -215,6 +241,28 @@
           document.getElementById("numericUserCount");
         numericUserCountElement.textContent = count;
       });
+
+      const toggleModeButton = document.getElementById("toggleModeButton");
+      const body = document.body;
+
+      // Toggle dark/light mode on button click
+      toggleModeButton.addEventListener("click", () => {
+        body.classList.toggle("dark-mode");
+        const isDarkMode = body.classList.contains("dark-mode");
+        saveUserPreference(isDarkMode);
+      });
+
+      // Set initial mode based on user's preference from localStorage
+      const isDarkModePreferred =
+        localStorage.getItem("darkModePreference") === "true";
+
+      if (isDarkModePreferred) {
+        body.classList.add("dark-mode");
+      }
+
+      function saveUserPreference(isDarkMode) {
+        localStorage.setItem("darkModePreference", isDarkMode);
+      }
     </script>
   </body>
 </html>
